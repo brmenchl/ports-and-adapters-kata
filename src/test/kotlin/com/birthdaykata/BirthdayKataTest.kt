@@ -107,6 +107,22 @@ class BirthdayKataTest : FunSpec({
         }
     }
 
+    test("should notify leap year birthday if not a leap year and date is feb 28") {
+        val employeeRepository = mockk<EmployeeRepository>()
+        val carolineWithLeapYearBirthday = caroline.copy(birthDate = LocalDate.of(1980, 2,29)) // 1980 is leap year
+        every { employeeRepository.getEmployees() } returns listOf(carolineWithLeapYearBirthday)
+
+        val birthdayGreetingNotifier = mockk<BirthdayGreetingNotifier>()
+        every { birthdayGreetingNotifier.sendBirthdayGreeting(any()) } just Runs
+
+        val birthdayGreeter = BirthdayGreeter(employeeRepository, birthdayGreetingNotifier)
+        birthdayGreeter.sendGreetings(LocalDate.of(2022, 2, 28)) // 2022 is not a leap year
+
+        verify {
+            birthdayGreetingNotifier.sendBirthdayGreeting(carolineWithLeapYearBirthday)
+        }
+    }
+
     test("should trigger birthday greeting notification when using one off birthday greeting trigger") {
         val employeeRepository = mockk<EmployeeRepository>()
         every { employeeRepository.getEmployees() } returns listOf(abby)
