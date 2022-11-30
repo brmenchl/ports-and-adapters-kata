@@ -1,0 +1,7 @@
+micronaut:
+  application:
+    name: birthdayKata
+netty:
+  default:
+    allocator:
+      max-order: 3
