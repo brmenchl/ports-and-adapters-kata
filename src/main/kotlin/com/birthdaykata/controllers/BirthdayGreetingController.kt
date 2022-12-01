@@ -1,9 +1,9 @@
-package com.birthdaykata.rest
+package com.birthdaykata.controllers
 
 import com.birthdaykata.adapters.EmployeeFileSystemRepository
 import com.birthdaykata.adapters.MockConsoleEmailService
 import com.birthdaykata.adapters.OneOffBirthdayGreetingTrigger
-import com.birthdaykata.domain.BirthdayGreeter
+import com.birthdaykata.usecases.BirthdayGreeter
 import com.birthdaykata.utils.SystemClock
 import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.Controller

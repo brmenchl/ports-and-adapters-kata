@@ -1,4 +1,4 @@
-package com.birthdaykata.rest
+package com.birthdaykata.controllers
 
 import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.Controller

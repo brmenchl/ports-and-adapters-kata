@@ -1,10 +1,11 @@
 package com.birthdaykata
 
+import arrow.core.valid
 import com.birthdaykata.adapters.OneOffBirthdayGreetingTrigger
-import com.birthdaykata.domain.BirthdayGreeter
+import com.birthdaykata.usecases.BirthdayGreeter
 import com.birthdaykata.domain.BirthdayGreetingNotifier
 import com.birthdaykata.domain.EmployeeRepository
-import com.birthdaykata.domain.models.EmailAddress
+import com.birthdaykata.domain.models.Email
 import com.birthdaykata.domain.models.Employee
 import com.birthdaykata.domain.models.FullName
 import com.birthdaykata.utils.FixedClock
@@ -16,17 +17,17 @@ class BirthdayKataTest : FunSpec({
     val john = Employee(
         FullName("John", "Doe"),
         LocalDate.of(1991, 12, 25),
-        EmailAddress.fromString("john@example.com")
+        Email.todo("john@example.com")
     )
     val abby =
-        Employee(FullName("Abby", "Blargh"), LocalDate.of(1992, 9, 20), EmailAddress.fromString("amy@google.com"))
+        Employee(FullName("Abby", "Blargh"), LocalDate.of(1992, 9, 20), Email.todo("amy@google.com"))
     val caroline =
-        Employee(FullName("Caroline", "Hmm"), LocalDate.of(1989, 7, 4), EmailAddress.fromString("caroline@google.com"))
+        Employee(FullName("Caroline", "Hmm"), LocalDate.of(1989, 7, 4), Email.todo("caroline@google.com"))
 
     test("should not notify when list is empty") {
         // Secondary Adapters
         val employeeRepository = mockk<EmployeeRepository>() // stub
-        every { employeeRepository.getEmployees() } returns emptyList()
+        every { employeeRepository.getEmployees() } returns emptyList<Employee>().valid()
         val birthdayGreetingNotifier = mockk<BirthdayGreetingNotifier>() // mock
 
         // Domain
@@ -40,7 +41,7 @@ class BirthdayKataTest : FunSpec({
     test("should not notify when list has one employee without a birthday on specified day") {
         // Secondary Adapters
         val employeeRepository = mockk<EmployeeRepository>() // stub
-        every { employeeRepository.getEmployees() } returns listOf(john)
+        every { employeeRepository.getEmployees() } returns listOf(john).valid()
 
         val birthdayGreetingNotifier = mockk<BirthdayGreetingNotifier>() // mock
 
@@ -55,7 +56,7 @@ class BirthdayKataTest : FunSpec({
     test("should notify employee when list has one employee with a birthday on specified day") {
         // Secondary Adapters
         val employeeRepository = mockk<EmployeeRepository>() // stub
-        every { employeeRepository.getEmployees() } returns listOf(john)
+        every { employeeRepository.getEmployees() } returns listOf(john).valid()
 
         val birthdayGreetingNotifier = mockk<BirthdayGreetingNotifier>() // mock
         every { birthdayGreetingNotifier.sendBirthdayGreeting(any()) } just Runs
@@ -71,7 +72,7 @@ class BirthdayKataTest : FunSpec({
     test("should not notify when list has multiple employees with no birthday on specified day") {
         // Secondary Adapters
         val employeeRepository = mockk<EmployeeRepository>() // stub
-        every { employeeRepository.getEmployees() } returns listOf(john, abby)
+        every { employeeRepository.getEmployees() } returns listOf(john, abby).valid()
 
         val birthdayGreetingNotifier = mockk<BirthdayGreetingNotifier>() // mock
         every { birthdayGreetingNotifier.sendBirthdayGreeting(any()) } just Runs
@@ -91,7 +92,7 @@ class BirthdayKataTest : FunSpec({
 
         // Secondary Adapters
         val employeeRepository = mockk<EmployeeRepository>() // stub
-        every { employeeRepository.getEmployees() } returns listOf(johnWithBirthday, abbyWithBirthday, caroline)
+        every { employeeRepository.getEmployees() } returns listOf(johnWithBirthday, abbyWithBirthday, caroline).valid()
 
         val birthdayGreetingNotifier = mockk<BirthdayGreetingNotifier>() // mock
         every { birthdayGreetingNotifier.sendBirthdayGreeting(any()) } just Runs
@@ -110,7 +111,7 @@ class BirthdayKataTest : FunSpec({
     test("should notify leap year birthday if not a leap year and date is feb 28") {
         val employeeRepository = mockk<EmployeeRepository>()
         val carolineWithLeapYearBirthday = caroline.copy(birthDate = LocalDate.of(1980, 2,29)) // 1980 is leap year
-        every { employeeRepository.getEmployees() } returns listOf(carolineWithLeapYearBirthday)
+        every { employeeRepository.getEmployees() } returns listOf(carolineWithLeapYearBirthday).valid()
 
         val birthdayGreetingNotifier = mockk<BirthdayGreetingNotifier>()
         every { birthdayGreetingNotifier.sendBirthdayGreeting(any()) } just Runs
@@ -125,7 +126,7 @@ class BirthdayKataTest : FunSpec({
 
     test("should trigger birthday greeting notification when using one off birthday greeting trigger") {
         val employeeRepository = mockk<EmployeeRepository>()
-        every { employeeRepository.getEmployees() } returns listOf(abby)
+        every { employeeRepository.getEmployees() } returns listOf(abby).valid()
 
         val birthdayGreetingNotifier = mockk<BirthdayGreetingNotifier>()
         every { birthdayGreetingNotifier.sendBirthdayGreeting(any()) } just Runs
