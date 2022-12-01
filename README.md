@@ -9,7 +9,6 @@ Based on [This blog post](http://matteo.vaccari.name/blog/archives/154.html)
 ### Domain
 
 #### Models
- - `Email` - a validated email address
  - `FullName` - first and last name
  - `Employee`
  - `Error` - sealed class repesenting custom errors
