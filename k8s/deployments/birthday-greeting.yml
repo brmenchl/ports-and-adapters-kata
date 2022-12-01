@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: birthday-greeting-deployment
+  labels:
+    app: birthday-greeting
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: birthday-greeting
+  template:
+    metadata:
+      labels:
+        app: birthday-greeting
+    spec:
+      containers:
+        - name: birthday-greeting
+          image: brmenchl/birthday-greeting:latest
+          ports:
+            - containerPort: 8080
