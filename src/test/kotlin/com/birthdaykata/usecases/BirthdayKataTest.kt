@@ -1,27 +1,26 @@
 package com.birthdaykata.usecases
 
+import arrow.core.left
 import arrow.core.right
 import com.birthdaykata.adapters.OneOffBirthdayGreetingTrigger
-import com.birthdaykata.domain.ports.BirthdayGreetingNotifier
-import com.birthdaykata.domain.ports.EmployeeRepository
 import com.birthdaykata.domain.models.Email
 import com.birthdaykata.domain.models.Employee
+import com.birthdaykata.domain.models.Error
 import com.birthdaykata.domain.models.FullName
+import com.birthdaykata.domain.ports.BirthdayGreetingNotifier
+import com.birthdaykata.domain.ports.EmployeeRepository
 import com.birthdaykata.utils.FixedClock
 import io.kotest.core.spec.style.FunSpec
+import io.kotest.matchers.shouldBe
 import io.mockk.*
 import java.time.LocalDate
 
 class BirthdayKataTest : FunSpec({
     val john = Employee(
-        FullName("John", "Doe"),
-        LocalDate.of(1991, 12, 25),
-        Email.todo("john@example.com")
+        FullName("John", "Doe"), LocalDate.of(1991, 12, 25), Email.todo("john@example.com")
     )
-    val abby =
-        Employee(FullName("Abby", "Blargh"), LocalDate.of(1992, 9, 20), Email.todo("amy@google.com"))
-    val caroline =
-        Employee(FullName("Caroline", "Hmm"), LocalDate.of(1989, 7, 4), Email.todo("caroline@google.com"))
+    val abby = Employee(FullName("Abby", "Blargh"), LocalDate.of(1992, 9, 20), Email.todo("amy@google.com"))
+    val caroline = Employee(FullName("Caroline", "Hmm"), LocalDate.of(1989, 7, 4), Email.todo("caroline@google.com"))
 
     test("should not notify when list is empty") {
         // Secondary Adapters
@@ -109,7 +108,7 @@ class BirthdayKataTest : FunSpec({
 
     test("should notify leap year birthday if not a leap year and date is feb 28") {
         val employeeRepository = mockk<EmployeeRepository>()
-        val carolineWithLeapYearBirthday = caroline.copy(birthDate = LocalDate.of(1980, 2,29)) // 1980 is leap year
+        val carolineWithLeapYearBirthday = caroline.copy(birthDate = LocalDate.of(1980, 2, 29)) // 1980 is leap year
         every { employeeRepository.getEmployees() } returns listOf(carolineWithLeapYearBirthday).right()
 
         val birthdayGreetingNotifier = mockk<BirthdayGreetingNotifier>()
@@ -139,5 +138,20 @@ class BirthdayKataTest : FunSpec({
         verify {
             birthdayGreetingNotifier.sendBirthdayGreeting(abby)
         }
+    }
+
+    test("should not notify birthday greetings on Left return from EmployeeRepository") {
+        val error = Error.Repository("Whoops").left()
+
+        val employeeRepository = mockk<EmployeeRepository>()
+        every { employeeRepository.getEmployees() } returns error
+
+        val birthdayGreetingNotifier = mockk<BirthdayGreetingNotifier>()
+        every { birthdayGreetingNotifier.sendBirthdayGreeting(any()) } just Runs
+
+        val birthdayGreeter = BirthdayGreeter(employeeRepository, birthdayGreetingNotifier)
+        birthdayGreeter.sendGreetings(LocalDate.now()) shouldBe error
+
+        verify { birthdayGreetingNotifier wasNot called }
     }
 })
