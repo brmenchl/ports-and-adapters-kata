@@ -1,7 +1,13 @@
 # TDD Ports and adapters kata
 Based on [This blog post](http://matteo.vaccari.name/blog/archives/154.html)
 
-## Using
+## Running
+ - Modify `employees.csv` in `resources` directory to include an employee with a birthday today
+ - `./gradlew run`
+ - Navigate to `localhost:8080/send-greetings`
+ - Greetings should show up in console
+
+## Libraries
  - Kotest and mockk for testing
  - Arrow-kt Either and Validated for Railway Oriented Programming (Thrown in at the end so this wasn't tested)
  - Served with Micronaut
