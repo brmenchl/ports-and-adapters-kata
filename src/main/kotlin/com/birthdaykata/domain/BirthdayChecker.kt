@@ -1,4 +1,4 @@
-package com.birthdaykata.core
+package com.birthdaykata.domain
 
 import java.time.LocalDate
 import java.time.Month

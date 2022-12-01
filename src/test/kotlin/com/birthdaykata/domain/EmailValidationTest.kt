@@ -1,9 +1,9 @@
-package com.birthdaykata
+package com.birthdaykata.domain
 
 import arrow.core.invalidNel
 import arrow.core.valid
-import com.birthdaykata.core.models.Email
-import com.birthdaykata.core.models.ValidationError
+import com.birthdaykata.domain.models.Email
+import com.birthdaykata.domain.models.ValidationError
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 

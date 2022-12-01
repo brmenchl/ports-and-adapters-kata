@@ -1,13 +1,12 @@
-package com.birthdaykata
+package com.birthdaykata.usecases
 
 import arrow.core.right
 import com.birthdaykata.adapters.OneOffBirthdayGreetingTrigger
-import com.birthdaykata.usecases.BirthdayGreeter
-import com.birthdaykata.core.ports.BirthdayGreetingNotifier
-import com.birthdaykata.core.ports.EmployeeRepository
-import com.birthdaykata.core.models.Email
-import com.birthdaykata.core.models.Employee
-import com.birthdaykata.core.models.FullName
+import com.birthdaykata.domain.ports.BirthdayGreetingNotifier
+import com.birthdaykata.domain.ports.EmployeeRepository
+import com.birthdaykata.domain.models.Email
+import com.birthdaykata.domain.models.Employee
+import com.birthdaykata.domain.models.FullName
 import com.birthdaykata.utils.FixedClock
 import io.kotest.core.spec.style.FunSpec
 import io.mockk.*
