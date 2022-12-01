@@ -1,4 +1,4 @@
-package com.birthdaykata.domain.models
+package com.birthdaykata.core.models
 
 import java.time.LocalDate
 

@@ -1,4 +1,4 @@
-package com.birthdaykata.domain.models
+package com.birthdaykata.core.models
 
 import arrow.core.NonEmptyList
 import arrow.core.Validated

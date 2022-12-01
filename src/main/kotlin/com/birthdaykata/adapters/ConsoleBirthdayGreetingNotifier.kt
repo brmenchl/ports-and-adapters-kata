@@ -1,9 +1,9 @@
 package com.birthdaykata.adapters
 
-import com.birthdaykata.domain.BirthdayGreetingNotifier
-import com.birthdaykata.domain.models.Employee
+import com.birthdaykata.core.ports.BirthdayGreetingNotifier
+import com.birthdaykata.core.models.Employee
 
-class MockConsoleEmailService : BirthdayGreetingNotifier {
+class ConsoleBirthdayGreetingNotifier : BirthdayGreetingNotifier {
     override fun sendBirthdayGreeting(employee: Employee) = println(birthdayGreeting(employee))
 
     private fun birthdayGreeting(employee: Employee): String =

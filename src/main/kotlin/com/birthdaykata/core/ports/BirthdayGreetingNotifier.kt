@@ -1,6 +1,6 @@
-package com.birthdaykata.domain
+package com.birthdaykata.core.ports
 
-import com.birthdaykata.domain.models.Employee
+import com.birthdaykata.core.models.Employee
 
 interface BirthdayGreetingNotifier {
     fun sendBirthdayGreeting(employee: Employee)

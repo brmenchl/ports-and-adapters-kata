@@ -1,8 +1,8 @@
 package com.birthdaykata.adapters
 
 import com.birthdaykata.usecases.BirthdayGreeter
-import com.birthdaykata.domain.BirthdayGreetingTrigger
-import com.birthdaykata.domain.models.Error
+import com.birthdaykata.core.ports.BirthdayGreetingTrigger
+import com.birthdaykata.core.models.Error
 import com.birthdaykata.utils.Clock
 
 class OneOffBirthdayGreetingTrigger(private val clock: Clock, private val birthdayGreeter: BirthdayGreeter) :

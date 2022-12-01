@@ -1,4 +1,4 @@
-package com.birthdaykata.domain
+package com.birthdaykata.core.ports
 
 interface BirthdayGreetingTrigger {
     fun run()

@@ -2,13 +2,13 @@ package com.birthdaykata.adapters
 
 import arrow.core.*
 import arrow.typeclasses.Semigroup
-import com.birthdaykata.domain.EmployeeRepository
-import com.birthdaykata.domain.models.*
+import com.birthdaykata.core.ports.EmployeeRepository
+import com.birthdaykata.core.models.*
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
 import java.io.InputStream
 import java.time.LocalDate
 
-class EmployeeFileSystemRepository(private val filepath: String) : EmployeeRepository {
+class FileSystemEmployeeRepository(private val filepath: String) : EmployeeRepository {
     override fun getEmployees(): Either<Error.Repository, List<Employee>> = getEmployeeCsv().flatMap {
         csvReader().readAllWithHeader(it)
             .map(::parseEmployee)

@@ -1,4 +1,4 @@
-package com.birthdaykata.domain.models
+package com.birthdaykata.core.models
 
 import arrow.core.Validated
 import arrow.core.zip

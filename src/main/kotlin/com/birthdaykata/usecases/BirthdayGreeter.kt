@@ -1,10 +1,10 @@
 package com.birthdaykata.usecases
 
 import arrow.core.Either
-import com.birthdaykata.domain.BirthdayChecker
-import com.birthdaykata.domain.BirthdayGreetingNotifier
-import com.birthdaykata.domain.EmployeeRepository
-import com.birthdaykata.domain.models.Error
+import com.birthdaykata.core.BirthdayChecker
+import com.birthdaykata.core.ports.BirthdayGreetingNotifier
+import com.birthdaykata.core.ports.EmployeeRepository
+import com.birthdaykata.core.models.Error
 import java.time.LocalDate
 
 class BirthdayGreeter(
