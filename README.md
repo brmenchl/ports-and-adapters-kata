@@ -6,6 +6,16 @@ Based on [This blog post](http://matteo.vaccari.name/blog/archives/154.html)
  - Arrow-kt Either and Validated for Railway Oriented Programming (Thrown in at the end so this wasn't tested)
  - Served with Micronaut
 
+### Domain
+
+#### Models
+ - `Email` - a validated email address
+ - `FullName` - first and last name
+ - `Employee`
+ - `Error` - sealed class repesenting custom errors
+   - `RepositoryError` - currently the only custom error type. Errors that occur in the repository layer
+ - `EmailRoute` - An email message
+
 ### Ports
  - `BirthdayGreetingTrigger` (primary adapter) - Provides an entry point to run `BirthdayGreeter`. This isn't technically needed, as any calling class could call into the `BirthdayGreeter` and the interface technically provides little decoupling or polymorphic value.
    - This port could support adhoc or scheduled triggers, for example 
