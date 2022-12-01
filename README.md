@@ -7,11 +7,12 @@ Based on [This blog post](http://matteo.vaccari.name/blog/archives/154.html)
  - Served with Micronaut
 
 ### Ports
- - `BirthdayGreetingTrigger` (primary adapter) - Provides an entry point to run BirthdayGreeter
-  - This port could support adhoc or scheduled triggers, for example 
+ - `BirthdayGreetingTrigger` (primary adapter) - Provides an entry point to run `BirthdayGreeter`. This isn't technically needed, as any calling class could call into the `BirthdayGreeter` and the interface technically provides little decoupling or polymorphic value.
+   - This port could support adhoc or scheduled triggers, for example 
  - `BirthdayGreetingNotifier` (secondary adapter) - Sends birthday greetings to specific employees
-  - This port could support emails, push notifications, or other service calls
+   - This port could support emails, push notifications, or other service calls
  - `EmployeeRepository` (secondary adapter) - Retrieves list of all employees along with emails and birthdays
+   - This port could support any storage method, (in-memory, database, service call)
 
 ### Adapters
 - `OneOffBirthdayGreetingTrigger: BirthdayGreetingTrigger` for adhoc greetings
